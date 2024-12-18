@@ -90,14 +90,14 @@ class Video:
 
         # NOTE:
         # https://developers.google.com/youtube/v3/docs/videos?hl=ja#contentDetails.regionRestriction
-        self.__region_restriction__ = item.get("regionRestriction")
+        region_restriction = item.get("regionRestriction")
 
         self.__allowed_regions__ = []
         self.__blocked_regions__ = []
 
-        if self.__region_restriction__:
-            allowed = self.__region_restriction__.get("allowed")
-            blocked = self.__region_restriction__.get("blocked")
+        if region_restriction:
+            allowed = region_restriction.get("allowed")
+            blocked = region_restriction.get("blocked")
 
             if allowed:
                 self.__allowed_regions__ = allowed
@@ -116,12 +116,6 @@ class Video:
         self,
     ) -> int:
         return self.__duration__
-
-    @property
-    def region_restriction(
-        self,
-    ) -> bool:
-        return self.__region_restriction__ != None
 
     @property
     def allowed_regions(

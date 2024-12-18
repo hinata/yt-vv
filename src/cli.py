@@ -99,24 +99,31 @@ def main() -> None:
 
         has_region_error = False
 
-        if v.region_restriction:
+        if len(v.allowed_regions) != 0:
             for r in args.regions:
                 if not r in v.allowed_regions:
                     has_region_error = True
 
-                    if args.show_error:
-                        print(
-                            json.dumps(
-                                dict(
-                                    id=v.id,
-                                    error="this video is NOT allowed watch in '%s'" % r,
-                                ),
-                            ),
-                        )
+                    break
+
+        if len(v.blocked_regions) != 0:
+            for r in args.regions:
+                if     r in v.blocked_regions:
+                    has_region_error = True
 
                     break
 
         if has_region_error:
+            if args.show_error:
+                print(
+                    json.dumps(
+                        dict(
+                            id=v.id,
+                            error="this video is NOT allowed watch in '%s'" % r,
+                        ),
+                    ),
+                )
+
             continue
 
         print(
